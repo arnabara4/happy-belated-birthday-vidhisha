@@ -142,7 +142,7 @@
 
     // Typewriter the heartfelt message — for one of my closest friends
     const msg =
-`Happy Belated Birthday to one of the most special people in my life ❤️
+`Happy Belated Birthday Vidhisha!
 I know I'm late… but you matter way too much for me to let your day pass quietly.
 You're not just a friend — you're family I got to choose.
 Thank you for every memory, every laugh, and every random late-night talk.
@@ -265,80 +265,6 @@ Now… maaf krdo? 🥺`;
       animating = false;
     }
   }
-
-  /* ---------- 5b. Lightbox: full-size photo viewer ---------- */
-  const lightbox      = document.getElementById('lightbox');
-  const lightboxImg   = document.getElementById('lightboxImg');
-  const lightboxClose = document.getElementById('lightboxClose');
-  const lightboxPrev  = document.getElementById('lightboxPrev');
-  const lightboxNext  = document.getElementById('lightboxNext');
-
-  // Collect photo polaroids in document order (skip the STEP note)
-  const photoPolaroids = Array.from(
-    document.querySelectorAll('.polaroid:not(.polaroid-note)')
-  );
-  const photos = photoPolaroids.map(p => {
-    const img = p.querySelector('img');
-    return { src: img.src, alt: img.alt || '' };
-  });
-  let lightboxIndex = 0;
-
-  function showAt(i) {
-    if (!photos.length) return;
-    lightboxIndex = (i + photos.length) % photos.length;
-    const p = photos[lightboxIndex];
-    lightboxImg.src = p.src;
-    lightboxImg.alt = p.alt;
-  }
-
-  function openLightbox(i) {
-    showAt(i);
-    lightbox.classList.add('open');
-    lightbox.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('lightbox-open');
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    lightbox.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('lightbox-open');
-  }
-
-  photoPolaroids.forEach((el, i) => {
-    el.addEventListener('click', () => openLightbox(i));
-  });
-
-  lightboxClose.addEventListener('click', closeLightbox);
-  lightboxPrev .addEventListener('click', (e) => { e.stopPropagation(); showAt(lightboxIndex - 1); });
-  lightboxNext .addEventListener('click', (e) => { e.stopPropagation(); showAt(lightboxIndex + 1); });
-
-  // Click on backdrop (but not on the photo or controls) closes it
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-
-  // Keyboard: Esc closes, arrows navigate
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape')      closeLightbox();
-    else if (e.key === 'ArrowLeft')  showAt(lightboxIndex - 1);
-    else if (e.key === 'ArrowRight') showAt(lightboxIndex + 1);
-  });
-
-  // Swipe support on touch devices
-  let touchStartX = 0;
-  let touchStartY = 0;
-  lightbox.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].clientX;
-    touchStartY = e.changedTouches[0].clientY;
-  }, { passive: true });
-  lightbox.addEventListener('touchend', (e) => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
-      showAt(lightboxIndex + (dx < 0 ? 1 : -1));
-    }
-  }, { passive: true });
 
   /* ---------- 6. Music toggle ---------- */
   const music   = document.getElementById('bgMusic');

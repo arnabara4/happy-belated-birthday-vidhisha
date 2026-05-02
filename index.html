@@ -67,7 +67,7 @@
 
     <div class="content">
 
-      <h1 class="title">Happy Belated Birthday!</h1>
+      <h1 class="title">Happy Belated Birthday Vidhisha!</h1>
 
       <!-- Cake with flickering candle -->
       <div class="cake-wrap">
@@ -85,21 +85,21 @@
       <!-- Photo gallery: our memories together -->
       <h2 class="gallery-title">Our Memories Together</h2>
       <div class="gallery" aria-label="Our memories together">
-        <button class="polaroid p1" type="button" aria-label="Open photo 1">
+        <div class="polaroid p1">
           <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.41.59%20AM.jpeg" alt="memory 1" loading="lazy" />
-        </button>
-        <button class="polaroid p2" type="button" aria-label="Open photo 2">
+        </div>
+        <div class="polaroid p2">
           <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.41.59%20AM%20(1).jpeg" alt="memory 2" loading="lazy" />
-        </button>
-        <button class="polaroid p3" type="button" aria-label="Open photo 3">
+        </div>
+        <div class="polaroid p3">
           <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.42.00%20AM.jpeg" alt="memory 3" loading="lazy" />
-        </button>
-        <button class="polaroid p4" type="button" aria-label="Open photo 4">
+        </div>
+        <div class="polaroid p4">
           <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.42.00%20AM%20(1).jpeg" alt="memory 4" loading="lazy" />
-        </button>
-        <button class="polaroid p5" type="button" aria-label="Open photo 5">
+        </div>
+        <div class="polaroid p5">
           <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.42.00%20AM%20(2).jpeg" alt="memory 5" loading="lazy" />
-        </button>
+        </div>
 
         <!-- The "secret" memory — no photo, just a note between the 3 of us -->
         <div class="polaroid p6 polaroid-note">
@@ -132,7 +132,7 @@
           <span class="clink-spark" aria-hidden="true">✦</span>
           <span class="glass glass-right">🍷</span>
         </div>
-        
+
         <h2>Cheers to a lifetime of memories</h2>
         <p class="reaction-sub">…and all the laughter we've had — and the chaos still to come 💫</p>
         <p class="reaction-ps">P.S. Japan trip is <em>mandatory</em> 🇯🇵 ✈️</p>
@@ -141,16 +141,6 @@
 
     <!-- Confetti / sparkle layer -->
     <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
-
-    <!-- Lightbox: full-size photo viewer (click a polaroid to open) -->
-    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Photo viewer">
-      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close photo">✕</button>
-      <button class="lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Previous photo">‹</button>
-      <button class="lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Next photo">›</button>
-      <div class="lightbox-stage" id="lightboxStage">
-        <img id="lightboxImg" src="" alt="" />
-      </div>
-    </div>
   </section>
 
   <script src="script.js"></script>
