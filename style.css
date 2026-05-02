@@ -1,0 +1,706 @@
+/* =============================================================
+   Belated Birthday Surprise — styles
+   Sections:
+     1. Base + utilities
+     2. Background (gradient, petals, particles)
+     3. Music toggle
+     4. Scene 1: Envelope
+     5. Scene 2: Birthday (title, cake, balloons, gallery,
+                          message, buttons, reaction, confetti)
+     6. Responsive tweaks
+   ============================================================= */
+
+/* ---------- 1. Base + utilities ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Quicksand', system-ui, sans-serif;
+  color: #5c3a52;
+  background: linear-gradient(135deg,
+              #ffe0ec 0%,
+              #fce1ff 22%,
+              #e3f0ff 48%,
+              #ffe9d6 74%,
+              #fff5d6 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 22s ease-in-out infinite;
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+.hidden { display: none !important; }
+
+.scene {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 3rem 1rem;
+  transition: opacity 1s ease;
+}
+
+/* ---------- 2. Background petals + particles ---------- */
+.petals {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.petal {
+  position: absolute;
+  top: -10vh;
+  user-select: none;
+  will-change: transform;
+  animation: petalFall linear infinite;
+}
+
+@keyframes petalFall {
+  0%   { transform: translate3d(0, -10vh, 0) rotate(0deg);   }
+  100% { transform: translate3d(40px, 110vh, 0) rotate(540deg); }
+}
+
+.sparkle {
+  color: #fff8b8;
+  text-shadow:
+    0 0 6px #ffe066,
+    0 0 14px rgba(255, 240, 180, 0.8),
+    0 0 24px rgba(255, 220, 120, 0.5);
+  animation: petalFall linear infinite, twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1;   }
+}
+
+/* ---------- 3. Music toggle ---------- */
+.music-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  font-size: 1.3rem;
+  z-index: 300;
+  box-shadow: 0 6px 18px rgba(255, 150, 180, 0.3);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.music-toggle:hover { transform: scale(1.1); }
+.music-toggle.muted { opacity: 0.7; }
+
+/* ---------- 4. Scene 1: Envelope ---------- */
+.envelope-scene { z-index: 2; }
+
+.envelope-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hint {
+  font-family: 'Caveat', cursive;
+  font-size: 1.8rem;
+  color: #b56a8a;
+  animation: floatY 2.6s ease-in-out infinite;
+  text-shadow: 0 2px 12px rgba(255, 200, 220, 0.6);
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+.envelope {
+  width: 320px;
+  height: 220px;
+  position: relative;
+  cursor: pointer;
+  filter: drop-shadow(0 25px 45px rgba(255, 130, 170, 0.35));
+  transition: transform 0.4s ease;
+  animation: floatY 4s ease-in-out infinite;
+}
+.envelope:hover { transform: scale(1.04); }
+.envelope:focus-visible { outline: 3px dashed #ff8fab; outline-offset: 8px; border-radius: 8px; }
+
+/* Layered envelope parts */
+.envelope-back,
+.envelope-front,
+.envelope-flap,
+.envelope-letter {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+}
+
+.envelope-back {
+  background: linear-gradient(135deg, #ffb3c6, #ff8fab);
+  z-index: 1;
+}
+
+.envelope-letter {
+  background: linear-gradient(180deg, #fffafd 0%, #fff0f5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: transform 1s cubic-bezier(0.34, 1.4, 0.64, 1) 0.4s,
+              opacity 0.6s ease 1.2s;
+  box-shadow: inset 0 0 20px rgba(255, 200, 220, 0.4);
+}
+
+.letter-content { text-align: center; padding: 1rem; }
+.letter-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2rem;
+  color: #c2185b;
+}
+.letter-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  color: #a35878;
+  margin-top: 0.2rem;
+}
+
+.envelope-front {
+  background: linear-gradient(135deg, #ff8fab, #ff7096);
+  z-index: 3;
+  clip-path: polygon(0 100%, 0 30%, 50% 70%, 100% 30%, 100% 100%);
+}
+
+.envelope-flap {
+  height: 70%;
+  background: linear-gradient(135deg, #ff7096, #e85a87);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transition: transform 0.7s ease;
+  z-index: 4;
+}
+
+.heart-seal {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  font-size: 2.2rem;
+  color: #c81e4a;
+  z-index: 5;
+  text-shadow: 0 4px 8px rgba(180, 30, 70, 0.4);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+}
+
+/* Open state */
+.envelope.open                    { animation: none; cursor: default; }
+.envelope.open .envelope-flap     { transform: rotateX(180deg); z-index: 1; }
+.envelope.open .heart-seal        { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
+.envelope.open .envelope-letter   { transform: translateY(-180px) scale(1.1); }
+
+/* ---------- 5. Scene 2: Birthday ---------- */
+.birthday-scene { z-index: 2; }
+
+.content {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.8rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Title */
+.title {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  background: linear-gradient(135deg, #d63384 0%, #b56aff 50%, #ff7096 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  text-align: center;
+  filter: drop-shadow(0 4px 18px rgba(255, 150, 200, 0.4));
+  animation: popIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1);   }
+}
+
+/* Cake */
+.cake-wrap { animation: popIn 1.1s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.cake {
+  position: relative;
+  width: 220px;
+  height: 240px;
+  margin: 0 auto;
+}
+.cake .layer,
+.cake .candle,
+.cake .plate {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 14px;
+}
+.plate {
+  bottom: -10px;
+  width: 240px;
+  height: 14px;
+  background: linear-gradient(180deg, #fff, #f0d8e2);
+  box-shadow: 0 8px 24px rgba(180, 100, 140, 0.3);
+  border-radius: 50%;
+}
+.cake-bottom {
+  bottom: 0;
+  width: 200px;
+  height: 70px;
+  background: linear-gradient(180deg, #ffd1dc, #ffb6c8);
+  box-shadow: inset 0 -6px 0 rgba(255,255,255,0.45);
+}
+.cake-mid {
+  bottom: 70px;
+  width: 160px;
+  height: 60px;
+  background: linear-gradient(180deg, #fff0f5, #ffd6e2);
+  box-shadow: inset 0 -6px 0 rgba(255,255,255,0.55);
+}
+.cake-top {
+  bottom: 130px;
+  width: 120px;
+  height: 50px;
+  background: linear-gradient(180deg, #ffe9f0, #ffc4d6);
+  box-shadow: inset 0 -6px 0 rgba(255,255,255,0.55);
+}
+
+/* Sprinkles via repeating gradient on top layer */
+.cake-top {
+  background-image:
+    radial-gradient(circle at 20% 40%, #ff85a2 2px, transparent 3px),
+    radial-gradient(circle at 60% 60%, #c8a8e9 2px, transparent 3px),
+    radial-gradient(circle at 80% 30%, #ffd166 2px, transparent 3px),
+    radial-gradient(circle at 35% 70%, #5fb8e8 2px, transparent 3px),
+    linear-gradient(180deg, #ffe9f0, #ffc4d6);
+}
+
+/* Candle */
+.candle {
+  bottom: 180px;
+  width: 12px;
+  height: 38px;
+  background: linear-gradient(180deg, #fff 0%, #fff 50%, #f3c1d3 50%, #f3c1d3 60%, #fff 60%, #fff 100%);
+  border-radius: 3px !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.flame {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 22px;
+  background: radial-gradient(circle at 50% 75%, #fff5b3 0%, #ffb74d 55%, #ff6b35 100%);
+  border-radius: 50% 50% 22% 22%;
+  filter: blur(0.4px);
+  animation: flicker 0.18s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 18px rgba(255, 200, 80, 0.9),
+    0 0 32px rgba(255, 180, 60, 0.55),
+    0 0 48px rgba(255, 150, 50, 0.3);
+}
+@keyframes flicker {
+  from { transform: translateX(-50%) scale(1, 1)        rotate(-2deg); opacity: 0.95; }
+  to   { transform: translateX(-50%) scale(0.94, 1.08) rotate(2deg);  opacity: 1;    }
+}
+
+/* Balloons */
+.balloons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+.balloon {
+  position: absolute;
+  bottom: -120px;
+  width: 40px;
+  height: 50px;
+  border-radius: 50% 50% 48% 48%;
+  animation: rise linear forwards;
+  box-shadow: inset -5px -8px 12px rgba(0,0,0,0.08),
+              inset 4px 6px 10px rgba(255,255,255,0.5);
+}
+.balloon::before {
+  /* small tie at the bottom */
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 6px;
+  height: 6px;
+  background: inherit;
+}
+.balloon::after {
+  /* string */
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1px;
+  height: 70px;
+  background: rgba(180, 100, 130, 0.4);
+}
+@keyframes rise {
+  0%   { transform: translate(0, 0) rotate(-3deg); }
+  50%  { transform: translate(15px, -55vh) rotate(3deg); }
+  100% { transform: translate(-10px, -115vh) rotate(-2deg); }
+}
+
+/* Gallery heading */
+.gallery-title {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: #b56a8a;
+  text-align: center;
+  margin-bottom: -1rem;
+  filter: drop-shadow(0 2px 12px rgba(255, 200, 220, 0.6));
+  animation: popIn 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.gallery-title::before,
+.gallery-title::after {
+  content: '✿';
+  margin: 0 0.6rem;
+  color: #d8a3b8;
+  font-size: 0.8em;
+  vertical-align: middle;
+}
+
+/* Photo gallery */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.8rem;
+  padding: 1rem;
+  perspective: 800px;
+}
+.polaroid {
+  background: white;
+  padding: 12px 12px 46px;
+  box-shadow: 0 10px 28px rgba(180, 100, 140, 0.25);
+  border-radius: 6px;
+  position: relative;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+  animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.polaroid img,
+.polaroid .note-content {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  background: #f4dde6;
+}
+
+/* The "STEP" note polaroid — no photo, just a sealed memory between us 3 */
+.polaroid-note .note-content {
+  background:
+    radial-gradient(circle at 20% 25%, rgba(255,255,255,0.7), transparent 40%),
+    linear-gradient(135deg, #fff0f5 0%, #ffe4ec 45%, #f1e1ff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 22px rgba(255, 180, 210, 0.45);
+}
+.polaroid-note .note-stars {
+  font-size: 0.75rem;
+  color: #c887a8;
+  letter-spacing: 6px;
+}
+.polaroid-note .note-title {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  font-size: 1.55rem;
+  line-height: 1.15;
+  color: #b3306d;
+  margin: 0.5rem 0;
+  text-shadow: 0 2px 10px rgba(255, 180, 210, 0.5);
+}
+.polaroid-note .note-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, #d63384, #b56aff);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  letter-spacing: 2px;
+}
+.polaroid-note .note-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: #7a4a66;
+}
+.polaroid span {
+  position: absolute;
+  bottom: 10px;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 1.25rem;
+  color: #884466;
+}
+.polaroid.p1 { transform: rotate(-6deg); animation-delay: 0.15s; }
+.polaroid.p2 { transform: rotate( 4deg); animation-delay: 0.25s; }
+.polaroid.p3 { transform: rotate(-3deg); animation-delay: 0.35s; }
+.polaroid.p4 { transform: rotate( 5deg); animation-delay: 0.45s; }
+.polaroid.p5 { transform: rotate(-5deg); animation-delay: 0.55s; }
+.polaroid.p6 { transform: rotate( 3deg); animation-delay: 0.65s; }
+
+.polaroid:hover {
+  transform: rotate(0) scale(1.1) translateY(-10px);
+  box-shadow: 0 18px 40px rgba(180, 100, 140, 0.4);
+  z-index: 5;
+}
+
+/* Message card with typewriter */
+.message-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 2rem 2.5rem;
+  border-radius: 28px;
+  box-shadow: 0 12px 40px rgba(255, 130, 170, 0.22);
+  max-width: 640px;
+  width: 100%;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  position: relative;
+  animation: popIn 0.9s 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.message {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  line-height: 1.55;
+  text-align: center;
+  color: #6b3850;
+  white-space: pre-line;
+  min-height: 9.5rem;
+}
+.caret {
+  display: inline-block;
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  color: #b56a8a;
+  animation: blink 0.9s steps(1) infinite;
+  position: relative;
+  top: -2px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.caret.done { display: none; }
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  min-height: 70px;
+  align-items: center;
+}
+.btn {
+  padding: 0.95rem 2.2rem;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  letter-spacing: 0.3px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+  user-select: none;
+}
+.btn-yes {
+  background: linear-gradient(135deg, #ff8fab, #ffc1d6);
+  box-shadow: 0 8px 22px rgba(255, 143, 171, 0.55);
+}
+.btn-yes:hover {
+  transform: translateY(-3px) scale(1.05);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 28px rgba(255, 143, 171, 0.6);
+}
+.btn-no {
+  background: linear-gradient(135deg, #c8a8e9, #e0c3fc);
+  box-shadow: 0 8px 22px rgba(200, 168, 233, 0.5);
+  /* This one runs away — see script.js */
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              top 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+              left 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Forgiveness reaction */
+.reaction {
+  text-align: center;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  padding: 1rem;
+}
+/* Two clinking glasses — a toast to friendship */
+.cheers {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.05em;
+  font-size: clamp(4.5rem, 14vw, 7rem);
+  filter: drop-shadow(0 14px 18px rgba(180, 100, 70, 0.25));
+}
+.glass {
+  display: inline-block;
+  transform-origin: 50% 90%;
+}
+.glass-left  { animation: clinkLeft  1.6s ease-in-out infinite; }
+.glass-right { animation: clinkRight 1.6s ease-in-out infinite; }
+
+@keyframes clinkLeft {
+  0%, 100% { transform: rotate(-22deg) translateX(-4px); }
+  45%, 55% { transform: rotate(  4deg) translateX( 4px); }
+}
+@keyframes clinkRight {
+  0%, 100% { transform: rotate( 22deg) translateX( 4px); }
+  45%, 55% { transform: rotate( -4deg) translateX(-4px); }
+}
+
+.clink-spark {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.4);
+  font-size: 0.5em;
+  color: #fff8b8;
+  text-shadow:
+    0 0 10px #ffe066,
+    0 0 22px #fff,
+    0 0 36px rgba(255, 220, 120, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  animation: sparkClink 1.6s ease-in-out infinite;
+}
+@keyframes sparkClink {
+  0%, 35%, 65%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.4) rotate(0deg); }
+  50%               { opacity: 1; transform: translate(-50%, -50%) scale(1.3) rotate(45deg); }
+}
+
+.reaction h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: #d63384;
+  margin-top: 0.8rem;
+}
+.reaction-sub {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+  color: #884466;
+  margin-top: 0.4rem;
+  max-width: 36ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.reaction-ps {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+  color: #a64a72;
+  margin-top: 0.9rem;
+}
+.reaction-ps em {
+  font-style: normal;
+  font-weight: 700;
+  color: #d63384;
+  text-decoration: underline wavy rgba(214, 51, 132, 0.5);
+  text-underline-offset: 4px;
+}
+
+/* Confetti canvas */
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* ---------- 6. Responsive tweaks ---------- */
+@media (max-width: 720px) {
+  .envelope { width: 280px; height: 195px; }
+  .hint { font-size: 1.5rem; }
+  .gallery { gap: 1.2rem; }
+  .polaroid { padding: 10px 10px 40px; }
+  .polaroid img,
+  .polaroid .note-content { width: 150px; height: 150px; }
+  .polaroid-note .note-title { font-size: 1.25rem; }
+  .polaroid-note .note-sub { font-size: 0.95rem; }
+  .polaroid span { font-size: 1.1rem; bottom: 8px; }
+  .message-card { padding: 1.5rem 1.4rem; }
+  .buttons { gap: 1rem; }
+  .btn { padding: 0.85rem 1.6rem; font-size: 0.98rem; }
+  .reaction .bear { font-size: 5.5rem; }
+}
+
+@media (max-width: 420px) {
+  .envelope { width: 240px; height: 168px; }
+  .letter-title { font-size: 1.7rem; }
+  .polaroid img,
+  .polaroid .note-content { width: 130px; height: 130px; }
+  .polaroid-note .note-title { font-size: 1.1rem; }
+  .cake { width: 180px; height: 210px; }
+  .cake-bottom { width: 170px; }
+  .cake-mid    { width: 135px; }
+  .cake-top    { width: 100px; }
+}
+
+/* Reduced-motion: tone things down */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  body { animation: none; }
+  .flame { animation: none; }
+}

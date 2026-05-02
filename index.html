@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffd1dc" />
+  <title>A Belated Birthday Surprise 💖</title>
+
+  <!-- Fonts: handwritten + soft sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Dancing+Script:wght@500;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =========================================================
+       Background: floating petals + glowing particles
+       (filled in by JS in script.js)
+       ========================================================= -->
+  <div class="petals" id="petals" aria-hidden="true"></div>
+
+  <!-- =========================================================
+       Background music toggle (muted by default).
+       Replace music.mp3 with any soft instrumental track.
+       ========================================================= -->
+  <button class="music-toggle muted" id="musicToggle" aria-label="Toggle background music">🔇</button>
+  <audio id="bgMusic" loop preload="none">
+    <!-- Drop your own track here (e.g. a soft lo-fi loop) -->
+    <source src="music.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- =========================================================
+       Scene 1: Envelope
+       Click the envelope to open the letter and reveal the
+       main birthday scene.
+       ========================================================= -->
+  <section class="scene envelope-scene" id="envelopeScene">
+    <div class="envelope-wrap">
+      <div class="hint">tap the envelope ✨</div>
+
+      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open the envelope">
+        <div class="envelope-back"></div>
+
+        <div class="envelope-letter">
+          <div class="letter-content">
+            <p class="letter-title">For You</p>
+            <p class="letter-sub">a tiny belated surprise 💌</p>
+          </div>
+        </div>
+
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="heart-seal" aria-hidden="true">❤</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       Scene 2: Birthday surprise
+       ========================================================= -->
+  <section class="scene birthday-scene hidden" id="birthdayScene">
+
+    <!-- Rising balloons (JS spawns these) -->
+    <div class="balloons" id="balloons" aria-hidden="true"></div>
+
+    <div class="content">
+
+      <h1 class="title">Happy Belated Birthday!</h1>
+
+      <!-- Cake with flickering candle -->
+      <div class="cake-wrap">
+        <div class="cake" aria-label="Birthday cake">
+          <div class="candle">
+            <div class="flame"></div>
+          </div>
+          <div class="layer cake-top"></div>
+          <div class="layer cake-mid"></div>
+          <div class="layer cake-bottom"></div>
+          <div class="plate"></div>
+        </div>
+      </div>
+
+      <!-- Photo gallery: our memories together -->
+      <h2 class="gallery-title">Our Memories Together</h2>
+      <div class="gallery" aria-label="Our memories together">
+        <div class="polaroid p1">
+          <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.41.59%20AM.jpeg" alt="memory 1" loading="lazy" />
+          <span>the squad ✿</span>
+        </div>
+        <div class="polaroid p2">
+          <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.41.59%20AM%20(1).jpeg" alt="memory 2" loading="lazy" />
+          <span>good times ☀</span>
+        </div>
+        <div class="polaroid p3">
+          <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.42.00%20AM.jpeg" alt="memory 3" loading="lazy" />
+          <span>always laughing 🎀</span>
+        </div>
+        <div class="polaroid p4">
+          <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.42.00%20AM%20(1).jpeg" alt="memory 4" loading="lazy" />
+          <span>partners in crime ♡</span>
+        </div>
+        <div class="polaroid p5">
+          <img src="assets/WhatsApp%20Image%202026-05-02%20at%206.42.00%20AM%20(2).jpeg" alt="memory 5" loading="lazy" />
+          <span>forever the gang ✦</span>
+        </div>
+
+        <!-- The "secret" memory — no photo, just a note between the 3 of us -->
+        <div class="polaroid p6 polaroid-note">
+          <div class="note-content">
+            <div class="note-stars" aria-hidden="true">★ ★ ★</div>
+            <p class="note-title">That Special<br/>Night at <em>STEP</em></p>
+            <p class="note-sub">just between us 3 🤫</p>
+            <div class="note-stars bottom" aria-hidden="true">★ ★ ★</div>
+          </div>
+          <span>some things stay with us 🔒</span>
+        </div>
+      </div>
+
+      <!-- Heartfelt message (typed out by JS) -->
+      <div class="message-card">
+        <p class="message" id="message" aria-live="polite"></p>
+        <span class="caret" id="caret">|</span>
+      </div>
+
+      <!-- Interactive buttons -->
+      <div class="buttons" id="buttons">
+        <button class="btn btn-yes" id="btnYes">Maaf Krdo 🥺</button>
+        <button class="btn btn-no" id="btnNo">Don't Maaf 😤</button>
+      </div>
+
+      <!-- Forgiveness reaction (revealed when "Maaf Krdo" clicked) -->
+      <div class="reaction hidden" id="reaction">
+        <!-- Two glasses clinking — a toast to friendship -->
+        <div class="cheers" aria-label="cheers">
+          <span class="glass glass-left">🍷</span>
+          <span class="clink-spark" aria-hidden="true">✦</span>
+          <span class="glass glass-right">🍷</span>
+        </div>
+        <h2>Cheers to a lifetime of memories</h2>
+        <p class="reaction-sub">…and all the laughter we've had — and the chaos still to come 💫</p>
+        <p class="reaction-ps">P.S. Japan trip is <em>mandatory</em> 🇯🇵 ✈️</p>
+      </div>
+    </div>
+
+    <!-- Confetti / sparkle layer -->
+    <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
