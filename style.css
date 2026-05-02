@@ -442,16 +442,16 @@ body {
 }
 .polaroid img,
 .polaroid .note-content {
-  width: 260px;
-  height: 320px;
+  width: 200px;
+  height: 200px;
   border-radius: 4px;
   display: block;
 }
 .polaroid img {
-  /* Show the FULL photo — never crop. Any empty area
-     blends into the white polaroid frame. */
-  object-fit: contain;
-  background: #ffffff;
+  /* Fit the card — the image fills the square frame, cropping
+     anything that overflows. */
+  object-fit: cover;
+  background: #f4dde6;
 }
 
 /* The "STEP" note polaroid — no photo, just a sealed memory between us 3 */
@@ -691,9 +691,9 @@ body {
   .gallery { gap: 1.2rem; }
   .polaroid { padding: 10px 10px 40px; }
   .polaroid img,
-  .polaroid .note-content { width: 220px; height: 280px; }
-  .polaroid-note .note-title { font-size: 1.45rem; }
-  .polaroid-note .note-sub { font-size: 1rem; }
+  .polaroid .note-content { width: 160px; height: 160px; }
+  .polaroid-note .note-title { font-size: 1.25rem; }
+  .polaroid-note .note-sub { font-size: 0.95rem; }
   .message-card { padding: 1.5rem 1.4rem; }
   .buttons { gap: 1rem; }
   .btn { padding: 0.85rem 1.6rem; font-size: 0.98rem; }
@@ -704,8 +704,8 @@ body {
   .envelope { width: 240px; height: 168px; }
   .letter-title { font-size: 1.7rem; }
   .polaroid img,
-  .polaroid .note-content { width: 200px; height: 250px; }
-  .polaroid-note .note-title { font-size: 1.25rem; }
+  .polaroid .note-content { width: 140px; height: 140px; }
+  .polaroid-note .note-title { font-size: 1.1rem; }
   .cake { width: 180px; height: 210px; }
   .cake-bottom { width: 170px; }
   .cake-mid    { width: 135px; }
