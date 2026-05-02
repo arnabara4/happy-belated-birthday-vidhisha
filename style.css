@@ -439,7 +439,9 @@ body {
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
               box-shadow 0.3s ease;
   animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  cursor: pointer;
 }
+.polaroid-note { cursor: default; }
 .polaroid img,
 .polaroid .note-content {
   width: 200px;
@@ -711,6 +713,112 @@ body {
   .cake-mid    { width: 135px; }
   .cake-top    { width: 100px; }
 }
+
+/* ---------- Lightbox (click a polaroid to view the full photo) ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(60, 25, 50, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  padding: clamp(0.75rem, 3vw, 2rem);
+}
+.lightbox.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-stage {
+  background: white;
+  padding: clamp(8px, 1.4vw, 14px);
+  border-radius: 8px;
+  box-shadow: 0 30px 80px rgba(60, 25, 50, 0.55);
+  max-width: min(96vw, 1200px);
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.7);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.35s ease;
+}
+.lightbox.open .lightbox-stage {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.lightbox-stage img {
+  display: block;
+  /* Show the WHOLE photo — never cropped, scaled to fit the viewport */
+  max-width: min(94vw, 1180px);
+  max-height: calc(90vh - clamp(16px, 2.8vw, 28px));
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.lightbox-close,
+.lightbox-nav {
+  position: fixed;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  color: #b3306d;
+  cursor: pointer;
+  z-index: 401;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, background 0.25s ease;
+  font-family: inherit;
+}
+.lightbox-close:hover { transform: scale(1.08) rotate(90deg); background: white; }
+
+.lightbox-close {
+  top: clamp(12px, 2vw, 22px);
+  right: clamp(12px, 2vw, 22px);
+  width: clamp(40px, 6vw, 48px);
+  height: clamp(40px, 6vw, 48px);
+  border-radius: 50%;
+  font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+  line-height: 1;
+}
+
+.lightbox-nav {
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(42px, 6vw, 54px);
+  height: clamp(42px, 6vw, 54px);
+  border-radius: 50%;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 4px;
+}
+.lightbox-prev { left: clamp(8px, 2vw, 22px); }
+.lightbox-next { right: clamp(8px, 2vw, 22px); }
+.lightbox-nav:hover { transform: translateY(-50%) scale(1.12); background: white; }
+
+/* On phones the side arrows would overlap the photo, so move them below */
+@media (max-width: 540px) {
+  .lightbox-nav      { top: auto; bottom: 18px; transform: none; }
+  .lightbox-nav:hover { transform: scale(1.1); }
+  .lightbox-prev     { left: 30%; }
+  .lightbox-next     { right: 30%; }
+  .lightbox-stage img { max-height: calc(90vh - 80px); }
+}
+
+body.lightbox-open { overflow: hidden; }
 
 /* Reduced-motion: tone things down */
 @media (prefers-reduced-motion: reduce) {
